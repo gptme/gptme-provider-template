@@ -16,18 +16,22 @@ from gptme.llm.models.types import ModelMeta, ProviderPlugin
 
 # Define available models (metadata only, OpenAI API handles actual inference).
 # Copy values from your provider's documentation.
+# Note: model names must be fully qualified as "<provider>/<model>", and
+# price_input/price_output are per 1M tokens (not per 1k).
 EXAMPLE_MODELS = [
     ModelMeta(
-        name="gpt-4",
-        context_window=128_000,
-        cost_per_1k_input=0.03,
-        cost_per_1k_output=0.06,
+        provider="unknown",
+        model="example/gpt-4",
+        context=128_000,
+        price_input=30.0,
+        price_output=60.0,
     ),
     ModelMeta(
-        name="gpt-3.5-turbo",
-        context_window=16_385,
-        cost_per_1k_input=0.50e-3,
-        cost_per_1k_output=1.50e-3,
+        provider="unknown",
+        model="example/gpt-3.5-turbo",
+        context=16_385,
+        price_input=0.5,
+        price_output=1.5,
     ),
 ]
 

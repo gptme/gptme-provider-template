@@ -42,8 +42,8 @@ jobs:
           EXAMPLE_API_KEY: "smoke-test-key"
         run: |
           python3 -c "
-          from gptme.models import get_models
-          models = get_models()
+          from gptme.llm.models import get_model_list
+          models = get_model_list(dynamic_fetch=False)
           model_ids = [m.model for m in models]
           print(f'Available models (sample): {model_ids[:5]}')
           example_models = [m for m in model_ids if m.startswith('example/')]
