@@ -1,0 +1,53 @@
+name: Test
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install package
+        run: uv pip install --system -e .
+
+      - name: Verify entry point registration
+        run: |
+          python3 -c "
+          from importlib.metadata import entry_points
+          eps = entry_points(group='gptme.plugins')
+          names = [ep.name for ep in eps]
+          print(f'Registered plugin entry points: {names}')
+          assert 'example' in names, f'example entry point not found in: {names}'
+          print('✅ Entry point registered successfully')
+          "
+
+      - name: Install gptme for model listing
+        run: uv pip install --system 'gptme>=0.1.0'
+
+      - name: Verify provider loads
+        env:
+          EXAMPLE_API_KEY: "smoke-test-key"
+        run: |
+          python3 -c "
+          from gptme.models import get_models
+          models = get_models()
+          model_ids = [m.model for m in models]
+          print(f'Available models (sample): {model_ids[:5]}')
+          example_models = [m for m in model_ids if m.startswith('example/')]
+          print(f'Example provider models: {example_models}')
+          assert example_models, f'No example/ models found. All models: {model_ids}'
+          print('✅ Example provider models accessible via gptme')
+          "
