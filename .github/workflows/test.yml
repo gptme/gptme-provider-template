@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  provider-contract:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - name: Install template and current gptme
+        run: uv sync --extra test --upgrade-package gptme
+      - name: Test provider contracts
+        run: uv run pytest -q
+      - name: Verify model discovery
+        run: |
+          uv run gptme-util models list --provider example --json > /tmp/models.json
+          uv run python - <<'PY'
+          import json
+          from pathlib import Path
+
+          models = json.loads(Path("/tmp/models.json").read_text())
+          assert {model["full"] for model in models} == {
+              "example/large",
+              "example/balanced",
+              "example/fast",
+          }
+          PY
