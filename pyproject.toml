@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gptme-provider-example"
+version = "0.1.0"
+description = "Minimal example provider plugin for gptme"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Your Name", email = "you@example.com"}]
+dependencies = [
+    "gptme>=0.1.0",
+]
+
+[project.entry-points."gptme.plugins"]
+example = "gptme_provider_example:provider"
+
+[project.urls]
+Homepage = "https://github.com/YOURNAME/gptme-provider-example"
+Repository = "https://github.com/YOURNAME/gptme-provider-example.git"
