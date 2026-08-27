@@ -14,7 +14,7 @@ dependencies = [
     "gptme>=0.1.0",
 ]
 
-[project.entry-points."gptme.plugins"]
+[project.entry-points."gptme.providers"]
 example = "gptme_provider_example:provider"
 
 [project.urls]

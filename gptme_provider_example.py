@@ -6,7 +6,7 @@ This demonstrates the simplest way to add a custom model provider to gptme.
 Setup:
   1. Set your API key: export EXAMPLE_API_KEY="sk-..."
   2. Install this module: pip install -e .
-  3. Run gptme: gptme --model example/gpt-4
+  3. Run gptme: gptme --model example/large
 
 The provider will be auto-discovered via entry points.
 """
@@ -16,22 +16,33 @@ from gptme.llm.models.types import ModelMeta, ProviderPlugin
 
 # Define available models (metadata only, OpenAI API handles actual inference).
 # Copy values from your provider's documentation.
-# Note: model names must be fully qualified as "<provider>/<model>", and
-# price_input/price_output are per 1M tokens (not per 1k).
+# Note: model names must be fully qualified as "<provider>/<model>",
+# and price_input/price_output are in USD per 1M tokens (not per 1k).
 EXAMPLE_MODELS = [
     ModelMeta(
         provider="unknown",
-        model="example/gpt-4",
+        model="example/large",
         context=128_000,
-        price_input=30.0,
-        price_output=60.0,
+        max_output=16_384,
+        price_input=3.00,
+        price_output=15.00,
+        supports_vision=True,
     ),
     ModelMeta(
         provider="unknown",
-        model="example/gpt-3.5-turbo",
-        context=16_385,
-        price_input=0.5,
-        price_output=1.5,
+        model="example/balanced",
+        context=64_000,
+        max_output=8_192,
+        price_input=1.00,
+        price_output=5.00,
+    ),
+    ModelMeta(
+        provider="unknown",
+        model="example/fast",
+        context=16_384,
+        max_output=4_096,
+        price_input=0.10,
+        price_output=0.40,
     ),
 ]
 

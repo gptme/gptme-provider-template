@@ -27,9 +27,9 @@ jobs:
         run: |
           python3 -c "
           from importlib.metadata import entry_points
-          eps = entry_points(group='gptme.plugins')
+          eps = entry_points(group='gptme.providers')
           names = [ep.name for ep in eps]
-          print(f'Registered plugin entry points: {names}')
+          print(f'Registered provider entry points: {names}')
           assert 'example' in names, f'example entry point not found in: {names}'
           print('✅ Entry point registered successfully')
           "
