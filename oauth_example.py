@@ -19,16 +19,20 @@ from gptme.llm.models.types import ModelMeta, ProviderPlugin
 
 OAUTH_MODELS = [
     ModelMeta(
-        name="default",
-        context_window=128_000,
-        cost_per_1k_input=0.01,
-        cost_per_1k_output=0.02,
+        provider="unknown",
+        model="oauth-example/default",
+        context=128_000,
+        max_output=16_384,
+        price_input=10.00,
+        price_output=20.00,
     ),
     ModelMeta(
-        name="fast",
-        context_window=16_385,
-        cost_per_1k_input=0.001,
-        cost_per_1k_output=0.002,
+        provider="unknown",
+        model="oauth-example/fast",
+        context=16_384,
+        max_output=4_096,
+        price_input=1.00,
+        price_output=2.00,
     ),
 ]
 
