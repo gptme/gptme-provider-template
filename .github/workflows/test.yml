@@ -4,6 +4,8 @@ on:
   push:
     branches: [master]
   pull_request:
+  schedule:
+    - cron: "0 6 * * 1" # weekly: catch gptme API drift early
 
 permissions:
   contents: read
@@ -14,6 +16,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.13"]
+        gptme: [pypi, master]
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -21,13 +24,17 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
       - name: Install template and current gptme
-        run: uv sync --extra test --upgrade-package gptme
+        run: |
+          uv sync --extra test --upgrade-package gptme
+          if [ "${{ matrix.gptme }}" = "master" ]; then
+            uv pip install "gptme @ git+https://github.com/gptme/gptme"
+          fi
       - name: Test provider contracts
-        run: uv run pytest -q
+        run: uv run --no-sync pytest -q
       - name: Verify model discovery
         run: |
-          uv run gptme-util models list --provider example --json > /tmp/models.json
-          uv run python - <<'PY'
+          uv run --no-sync gptme-util models list --provider example --json > /tmp/models.json
+          uv run --no-sync python - <<'PY'
           import json
           from pathlib import Path
 
