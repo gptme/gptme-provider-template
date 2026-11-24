@@ -35,19 +35,21 @@ uv pip install -e .
 ### 3. Verify Installation
 
 ```bash
-gptme models | grep example
+gptme-util models list --provider example --json
 ```
 
 You should see:
-```
-example/gpt-4
-example/gpt-3.5-turbo
+
+```txt
+example/large
+example/balanced
+example/fast
 ```
 
 ### 4. Use It
 
 ```bash
-gptme --model example/gpt-4
+gptme --model example/fast
 ```
 
 ## Customization
@@ -105,7 +107,7 @@ provider = ProviderPlugin(
 
 When gptme starts, it:
 
-1. Discovers all installed providers via entry points (`gptme.plugins`)
+1. Discovers all installed providers via entry points (`gptme.providers`)
 2. Loads each provider's `ProviderPlugin` instance
 3. Calls the `init()` callback (if provided) for setup
 4. Merges models into the global model catalog
@@ -116,7 +118,7 @@ When gptme starts, it:
 In `pyproject.toml`:
 
 ```toml
-[project.entry-points."gptme.plugins"]
+[project.entry-points."gptme.providers"]
 example = "gptme_provider_example:provider"
 ```
 
@@ -131,7 +133,7 @@ To test locally without publishing:
 pip install -e .
 
 # Verify gptme sees your provider:
-gptme models | grep your-provider
+gptme-util models list --provider your-provider --json
 
 # Try a request:
 gptme --model your-provider/model-name "Hello"

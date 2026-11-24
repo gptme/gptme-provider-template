@@ -18,16 +18,29 @@ from gptme.llm.models.types import ModelMeta, ProviderPlugin
 # Copy values from your provider's documentation.
 EXAMPLE_MODELS = [
     ModelMeta(
-        name="gpt-4",
-        context_window=128_000,
-        cost_per_1k_input=0.03,
-        cost_per_1k_output=0.06,
+        provider="unknown",
+        model="example/large",
+        context=128_000,
+        max_output=16_384,
+        price_input=3.00,
+        price_output=15.00,
+        supports_vision=True,
     ),
     ModelMeta(
-        name="gpt-3.5-turbo",
-        context_window=16_385,
-        cost_per_1k_input=0.50e-3,
-        cost_per_1k_output=1.50e-3,
+        provider="unknown",
+        model="example/balanced",
+        context=64_000,
+        max_output=8_192,
+        price_input=1.00,
+        price_output=5.00,
+    ),
+    ModelMeta(
+        provider="unknown",
+        model="example/fast",
+        context=16_384,
+        max_output=4_096,
+        price_input=0.10,
+        price_output=0.40,
     ),
 ]
 

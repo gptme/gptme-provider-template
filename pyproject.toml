@@ -11,12 +11,15 @@ requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [{name = "Your Name", email = "you@example.com"}]
 dependencies = [
-    "gptme>=0.1.0",
+    "gptme>=0.32.0",
 ]
 
-[project.entry-points."gptme.plugins"]
+[project.entry-points."gptme.providers"]
 example = "gptme_provider_example:provider"
 
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
 [project.urls]
-Homepage = "https://github.com/YOURNAME/gptme-provider-example"
-Repository = "https://github.com/YOURNAME/gptme-provider-example.git"
+Homepage = "https://github.com/gptme/gptme-provider-template"
+Repository = "https://github.com/gptme/gptme-provider-template.git"
