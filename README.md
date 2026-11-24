@@ -107,7 +107,7 @@ provider = ProviderPlugin(
 
 When gptme starts, it:
 
-1. Discovers all installed providers via entry points (`gptme.plugins`)
+1. Discovers all installed providers via entry points (`gptme.providers`)
 2. Loads each provider's `ProviderPlugin` instance
 3. Calls the `init()` callback (if provided) for setup
 4. Merges models into the global model catalog
